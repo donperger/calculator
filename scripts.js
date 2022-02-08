@@ -1,8 +1,8 @@
 let displayedNumber = null;
 const displayContainer = document.querySelector('.display-container')
 
-const buttons = document.querySelectorAll('.buttons');
-buttons.forEach((button) => {
+const numberButtons = document.querySelectorAll('.number-buttons');
+numberButtons.forEach((button) => {
     button.addEventListener('click', () => {
         let value = button.textContent;
         if ( displayedNumber === null) {
