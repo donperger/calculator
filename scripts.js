@@ -5,7 +5,7 @@ console.log(add(a, b));
 console.log(substract(a, b));
 console.log(multiply(a, b));
 console.log(divide(a, b));
-console.log(operate(divide, a, b));
+console.log(operate(add, a, b));
 
 function add(a,b) {
     return a + b;
