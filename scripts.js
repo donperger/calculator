@@ -71,6 +71,11 @@ function operate(operation, a, b) {
     } else if (operation === 'multiply') {
         return multiply(a, b);
     } else if (operation === 'divide') {
+        if (Number(b) === 0) {
+            alert("You can't divide a number by zero. At that point things not making sense.")
+            clear();
+            return 0;
+        }
         return divide(a, b);
     };
 };
@@ -82,6 +87,9 @@ function calculate () {
     secondNumber = Number(separatedDisplay[2]);
 
     result = operate(operation, firstNumber, secondNumber);
+    if (!Number.isInteger(result)) {
+        result = result.toFixed(4);
+    }
     displayContainer.textContent = result; 
 };
 
