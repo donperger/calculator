@@ -1,5 +1,9 @@
 let displayedNumber = null;
-const displayContainer = document.querySelector('.display-container')
+let firstNumber = null;
+let secondNumber = null;
+let operation = undefined;
+
+const displayContainer = document.querySelector('.display-container');
 
 const numberButtons = document.querySelectorAll('.number-buttons');
 numberButtons.forEach((button) => {
@@ -13,6 +17,21 @@ numberButtons.forEach((button) => {
         displayContainer.textContent = displayedNumber
     });
 });
+
+const operationButtons = document.querySelectorAll('.operation-buttons');
+operationButtons.forEach((button) => {
+    button.addEventListener('click', () => {
+        let buttonOperation = button.id;
+        let buttonSign = button.textContent;
+
+        operation = buttonOperation;
+        firstNumber = Number(displayedNumber);
+        displayedNumber += ` ${buttonSign} `;
+
+        displayContainer.textContent = displayedNumber;
+    });
+});
+
 
 function add(a,b) {
     return a + b;
