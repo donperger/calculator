@@ -1,6 +1,7 @@
-let displayedNumber = null;
+let display = null;
 let firstNumber = null;
 let secondNumber = null;
+let result = undefined;
 let operation = undefined;
 
 const displayContainer = document.querySelector('.display-container');
@@ -9,12 +10,12 @@ const numberButtons = document.querySelectorAll('.number-buttons');
 numberButtons.forEach((button) => {
     button.addEventListener('click', () => {
         let value = button.textContent;
-        if ( displayedNumber === null) {
-            displayedNumber = value;
+        if ( display === null || displayContainer.textContent == result) {
+            display = value;
         } else {
-            displayedNumber += value;
+            display += value;
         }
-        displayContainer.textContent = displayedNumber
+        displayContainer.textContent = display
     });
 });
 
@@ -25,12 +26,22 @@ operationButtons.forEach((button) => {
         let buttonSign = button.textContent;
 
         operation = buttonOperation;
-        firstNumber = Number(displayedNumber);
-        displayedNumber += ` ${buttonSign} `;
+        display += ` ${buttonSign} `;
 
-        displayContainer.textContent = displayedNumber;
+        displayContainer.textContent = display;
     });
 });
+
+const equalButton = document.getElementById('equal');
+equalButton.addEventListener('click', () => {
+    let separatedDisplay = display.split(' ');
+    
+    firstNumber = Number(separatedDisplay[0]);
+    secondNumber = Number(separatedDisplay[2]);
+
+    result = operate(operation, firstNumber, secondNumber);
+    displayContainer.textContent = result;
+})
 
 
 function add(a,b) {
@@ -50,5 +61,13 @@ function divide (a, b) {
 };
 
 function operate(operation, a, b) {
-    return operation(a, b);
-}
+    if ( operation === 'add') {
+        return add(a, b);
+    } else if (operation === 'substract') {
+        return substract(a, b);
+    } else if (operation === 'multiply') {
+        return multiply(a, b);
+    } else if (operation === 'divide') {
+        return divide(a, b);
+    };
+};
