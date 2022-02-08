@@ -1,16 +1,17 @@
-let display = null;
+const displayContainer = document.querySelector('.display-container');
+
+let display = 0;
+displayContainer.textContent = display;
 let firstNumber = null;
 let secondNumber = null;
 let result = undefined;
 let operation = undefined;
 
-const displayContainer = document.querySelector('.display-container');
-
 const numberButtons = document.querySelectorAll('.number-buttons');
 numberButtons.forEach((button) => {
     button.addEventListener('click', () => {
         let value = button.textContent;
-        if ( display === null || displayContainer.textContent == result) {
+        if ( display === 0 || Number(displayContainer.textContent) === result) {
             display = value;
         } else {
             display += value;
@@ -22,6 +23,14 @@ numberButtons.forEach((button) => {
 const operationButtons = document.querySelectorAll('.operation-buttons');
 operationButtons.forEach((button) => {
     button.addEventListener('click', () => {
+         if (display.split(' ').length === 3) {
+            calculate();
+            firstNumber = result;
+            display = firstNumber;
+         } else if (Number(displayContainer.textContent) === result) {
+            firstNumber = result;
+            display = firstNumber;
+        }
         let buttonOperation = button.id;
         let buttonSign = button.textContent;
 
@@ -32,17 +41,11 @@ operationButtons.forEach((button) => {
     });
 });
 
+const clearButton = document.getElementById('clear');
+clearButton.addEventListener('click', clear)
+
 const equalButton = document.getElementById('equal');
-equalButton.addEventListener('click', () => {
-    let separatedDisplay = display.split(' ');
-    
-    firstNumber = Number(separatedDisplay[0]);
-    secondNumber = Number(separatedDisplay[2]);
-
-    result = operate(operation, firstNumber, secondNumber);
-    displayContainer.textContent = result;
-})
-
+equalButton.addEventListener('click', calculate);
 
 function add(a,b) {
     return a + b;
@@ -71,3 +74,22 @@ function operate(operation, a, b) {
         return divide(a, b);
     };
 };
+
+function calculate () {
+    let separatedDisplay = display.split(' ');
+    
+    firstNumber = Number(separatedDisplay[0]);
+    secondNumber = Number(separatedDisplay[2]);
+
+    result = operate(operation, firstNumber, secondNumber);
+    displayContainer.textContent = result; 
+};
+
+function clear() {
+     display = 0;
+    displayContainer.textContent = display;
+     firstNumber = null;
+     secondNumber = null;
+     result = undefined;
+     operation = undefined;
+}
