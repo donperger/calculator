@@ -1,11 +1,18 @@
-let a = 2;
-let b = 2;
+let displayedNumber = null;
+const displayContainer = document.querySelector('.display-container')
 
-console.log(add(a, b));
-console.log(substract(a, b));
-console.log(multiply(a, b));
-console.log(divide(a, b));
-console.log(operate(add, a, b));
+const buttons = document.querySelectorAll('.buttons');
+buttons.forEach((button) => {
+    button.addEventListener('click', () => {
+        let value = button.textContent;
+        if ( displayedNumber === null) {
+            displayedNumber = value;
+        } else {
+            displayedNumber += value;
+        }
+        displayContainer.textContent = displayedNumber
+    });
+});
 
 function add(a,b) {
     return a + b;
