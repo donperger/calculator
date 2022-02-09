@@ -16,7 +16,8 @@ let operation = undefined;
 
 const numberButtons = document.querySelectorAll('.number-buttons');
 numberButtons.forEach((button) => {
-    button.addEventListener('click', () => {
+    button.addEventListener('click', (e) => {
+        e.preventDefault();
         let value = button.textContent;
         addNumber(value);
     });
@@ -24,23 +25,23 @@ numberButtons.forEach((button) => {
 
 const operationButtons = document.querySelectorAll('.operation-buttons');
 operationButtons.forEach((button) => {
-    button.addEventListener('click', () => {
+    button.addEventListener('click', (e) => {
         let buttonOperation = button.id;
         let buttonSign = button.textContent;
         addOperation(buttonOperation, buttonSign);
     });
 });
 
-const clearButton = document.getElementById('clear');
+const clearButton = document.querySelector('.clear');
 clearButton.addEventListener('click', clear)
 
-const equalButton = document.getElementById('equal');
+const equalButton = document.querySelector('.equal');
 equalButton.addEventListener('click', calculate);
 
-const backsapaceButton = document.getElementById('backsapce');
+const backsapaceButton = document.querySelector('.backsapce');
 backsapaceButton.addEventListener('click', backspace);
 
-const floatPointButton = document.getElementById('float-point');
+const floatPointButton = document.querySelector('.float-point');
 floatPointButton.addEventListener('click', floatPoint)
 
 
