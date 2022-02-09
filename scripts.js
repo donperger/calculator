@@ -1,6 +1,6 @@
 const displayContainer = document.querySelector('.display-container');
 
-let display = 0;
+let display = '0';
 displayContainer.textContent = display;
 let firstNumber = null;
 let secondNumber = null;
@@ -10,8 +10,10 @@ let operation = undefined;
 const numberButtons = document.querySelectorAll('.number-buttons');
 numberButtons.forEach((button) => {
     button.addEventListener('click', () => {
+        if (backsapaceButton.disabled) backspaceButtonSwitch();
+        
         let value = button.textContent;
-        if ( display === 0 || Number(displayContainer.textContent) === result) {
+        if ( display === '0' || Number(displayContainer.textContent) === result) {
             display = value;
         } else {
             display += value;
@@ -23,11 +25,15 @@ numberButtons.forEach((button) => {
 const operationButtons = document.querySelectorAll('.operation-buttons');
 operationButtons.forEach((button) => {
     button.addEventListener('click', () => {
-         if (display.split(' ').length === 3) {
+        if (backsapaceButton.disabled) backspaceButtonSwitch();
+
+
+        if (display.split(' ').length === 3) {
             calculate();
+            backsapaceButton.disabled = false;
             firstNumber = result;
             display = firstNumber;
-         } else if (Number(displayContainer.textContent) === result) {
+        } else if (Number(displayContainer.textContent) === result) {
             firstNumber = result;
             display = firstNumber;
         }
@@ -46,6 +52,9 @@ clearButton.addEventListener('click', clear)
 
 const equalButton = document.getElementById('equal');
 equalButton.addEventListener('click', calculate);
+
+const backsapaceButton = document.getElementById('backsapce');
+backsapaceButton.addEventListener('click', backspace);
 
 function add(a,b) {
     return a + b;
@@ -81,7 +90,13 @@ function operate(operation, a, b) {
 };
 
 function calculate () {
+    if (!backsapaceButton.disabled) backspaceButtonSwitch();
+
     let separatedDisplay = display.split(' ');
+    if (separatedDisplay.length === 1) {
+        displayContainer.textContent = display;
+        return
+    }
     
     firstNumber = Number(separatedDisplay[0]);
     secondNumber = Number(separatedDisplay[2]);
@@ -94,10 +109,27 @@ function calculate () {
 };
 
 function clear() {
-     display = 0;
+    if (backsapaceButton.disabled) backspaceButtonSwitch();
+
+    display = '0';
     displayContainer.textContent = display;
-     firstNumber = null;
-     secondNumber = null;
-     result = undefined;
-     operation = undefined;
-}
+    firstNumber = null;
+    secondNumber = null;
+    result = undefined;
+    operation = undefined;
+};
+
+function backspace() {
+    if (!(Number(displayContainer.textContent) === result)) {
+        if ( display.slice(-1) === ' ') {
+            display = display.slice(0,-3);
+        } else {
+            display = display.slice(0,-1);
+        };
+        displayContainer.textContent = display;
+    };
+};
+
+function backspaceButtonSwitch() {
+    backsapaceButton.disabled = !backsapaceButton.disabled;
+};
