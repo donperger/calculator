@@ -1,3 +1,10 @@
+const numberKeys = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
+const operationKeys = [
+    {name: 'add', sign: '+'},
+    {name: 'substract', sign: '-'},
+    {name: 'multiply', sign: '*'},
+    {name: 'divide', sign: '/'},
+    ];
 const displayContainer = document.querySelector('.display-container');
 
 let display = '0';
@@ -10,45 +17,17 @@ let operation = undefined;
 const numberButtons = document.querySelectorAll('.number-buttons');
 numberButtons.forEach((button) => {
     button.addEventListener('click', () => {
-        if (backsapaceButton.disabled) backspaceButtonSwitch();
-        
         let value = button.textContent;
-        if ( display === '0' || Number(displayContainer.textContent) === Number(result)) {
-            display = value;
-        } else {
-            display += value;
-        }
-        displayContainer.textContent = display;
-
-        if (display.length === 1) floatPointButtonSwitch();
+        addNumber(value);
     });
 });
 
 const operationButtons = document.querySelectorAll('.operation-buttons');
 operationButtons.forEach((button) => {
     button.addEventListener('click', () => {
-        if (backsapaceButton.disabled) backspaceButtonSwitch();
-        if (floatPointButton.disabled) floatPointButtonSwitch();
-
-        if (display.split(' ').length === 3) {
-            calculate();
-
-            backsapaceButton.disabled = false;
-            floatPointButton.disabled = false;
-            
-            firstNumber = result;
-            display = firstNumber;
-        } else if (Number(displayContainer.textContent) === Number(result)) {
-            firstNumber = result;
-            display = firstNumber;
-        }
         let buttonOperation = button.id;
         let buttonSign = button.textContent;
-
-        operation = buttonOperation;
-        display += ` ${buttonSign} `;
-
-        displayContainer.textContent = display;
+        addOperation(buttonOperation, buttonSign);
     });
 });
 
@@ -63,6 +42,25 @@ backsapaceButton.addEventListener('click', backspace);
 
 const floatPointButton = document.getElementById('float-point');
 floatPointButton.addEventListener('click', floatPoint)
+
+
+window.addEventListener('keydown', (e) => {
+    if (numberKeys.includes(e.key)) {
+        let value = e.key;
+        addNumber(value);
+    } else if ( operationKeys.filter(key => key.sign === e.key).length != 0) {
+        let operationKeyObj = operationKeys.filter(key => key.sign === e.key);
+        addOperation(operationKeyObj[0].name, operationKeyObj[0].sign);
+    } else if (e.key === 'Enter' || e.key === '=') {
+        calculate();
+    } else if (e.key === 'Backspace' && !backsapaceButton.disabled) {
+        backspace();
+    } else if ((e.key === '.' || e.key === ',') && !floatPointButton.disabled) {
+        floatPoint();
+    } else if (e.key === 'Escape') {
+        clear();
+    }
+});
 
 function add(a,b) {
     return a + b;
@@ -119,6 +117,7 @@ function calculate () {
 
 function clear() {
     if (backsapaceButton.disabled) backspaceButtonSwitch();
+    if (floatPointButton.disabled) floatPointButtonSwitch();
 
     display = '0';
     displayContainer.textContent = display;
@@ -152,4 +151,40 @@ function floatPoint() {
     displayContainer.textContent = display;
     
     floatPointButtonSwitch();
+};
+
+function addNumber(value) {
+    if (backsapaceButton.disabled) backspaceButtonSwitch();
+        
+    if ( display === '0' || Number(displayContainer.textContent) === Number(result)) {
+        display = value;
+    } else {
+        display += value;
+    }
+    displayContainer.textContent = display;
+
+    if (display.length === 1 && floatPointButton.disabled) floatPointButtonSwitch();
+};
+
+function addOperation(operationName, operationsSign) {
+    if (backsapaceButton.disabled) backspaceButtonSwitch();
+    if (floatPointButton.disabled) floatPointButtonSwitch();
+
+    if (display.split(' ').length === 3) {
+        calculate();
+
+        backsapaceButton.disabled = false;
+        floatPointButton.disabled = false;
+
+        firstNumber = result;
+        display = firstNumber;
+    } else if (Number(displayContainer.textContent) === Number(result)) {
+        firstNumber = result;
+        display = firstNumber;
+    }
+
+    operation = operationName;
+    display += ` ${operationsSign} `;
+
+    displayContainer.textContent = display;
 };
