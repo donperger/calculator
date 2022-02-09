@@ -13,12 +13,14 @@ numberButtons.forEach((button) => {
         if (backsapaceButton.disabled) backspaceButtonSwitch();
         
         let value = button.textContent;
-        if ( display === '0' || Number(displayContainer.textContent) === result) {
+        if ( display === '0' || Number(displayContainer.textContent) === Number(result)) {
             display = value;
         } else {
             display += value;
         }
-        displayContainer.textContent = display
+        displayContainer.textContent = display;
+
+        if (display.length === 1) floatPointButtonSwitch();
     });
 });
 
@@ -26,14 +28,17 @@ const operationButtons = document.querySelectorAll('.operation-buttons');
 operationButtons.forEach((button) => {
     button.addEventListener('click', () => {
         if (backsapaceButton.disabled) backspaceButtonSwitch();
-
+        if (floatPointButton.disabled) floatPointButtonSwitch();
 
         if (display.split(' ').length === 3) {
             calculate();
+
             backsapaceButton.disabled = false;
+            floatPointButton.disabled = false;
+            
             firstNumber = result;
             display = firstNumber;
-        } else if (Number(displayContainer.textContent) === result) {
+        } else if (Number(displayContainer.textContent) === Number(result)) {
             firstNumber = result;
             display = firstNumber;
         }
@@ -55,6 +60,9 @@ equalButton.addEventListener('click', calculate);
 
 const backsapaceButton = document.getElementById('backsapce');
 backsapaceButton.addEventListener('click', backspace);
+
+const floatPointButton = document.getElementById('float-point');
+floatPointButton.addEventListener('click', floatPoint)
 
 function add(a,b) {
     return a + b;
@@ -91,6 +99,7 @@ function operate(operation, a, b) {
 
 function calculate () {
     if (!backsapaceButton.disabled) backspaceButtonSwitch();
+    if (!floatPointButton.disabled) floatPointButtonSwitch();
 
     let separatedDisplay = display.split(' ');
     if (separatedDisplay.length === 1) {
@@ -120,7 +129,7 @@ function clear() {
 };
 
 function backspace() {
-    if (!(Number(displayContainer.textContent) === result)) {
+    if (!(Number(displayContainer.textContent) === Number(result))) {
         if ( display.slice(-1) === ' ') {
             display = display.slice(0,-3);
         } else {
@@ -132,4 +141,15 @@ function backspace() {
 
 function backspaceButtonSwitch() {
     backsapaceButton.disabled = !backsapaceButton.disabled;
+};
+
+function floatPointButtonSwitch() {
+    floatPointButton.disabled = !floatPointButton.disabled;
+}
+
+function floatPoint() {
+    display += `.`;
+    displayContainer.textContent = display;
+    
+    floatPointButtonSwitch();
 };
