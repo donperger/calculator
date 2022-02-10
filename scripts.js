@@ -17,7 +17,6 @@ let operation = undefined;
 const numberButtons = document.querySelectorAll('.number-buttons');
 numberButtons.forEach((button) => {
     button.addEventListener('click', (e) => {
-        e.preventDefault();
         let value = button.textContent;
         addNumber(value);
     });
