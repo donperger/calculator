@@ -5,6 +5,7 @@
 body {
     font-family: Arial, Helvetica, sans-serif;
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
     height: 100vh;
@@ -22,6 +23,7 @@ body {
     border-radius: 10px;
     width: 80vw;
     background-color: var(--bckg-color);
+    margin-bottom: 10px;
 }
 
 .display-container {
@@ -52,14 +54,13 @@ body {
 .op-btn-container {
     display: grid;
     gap: 1vw;
-    grid-template-columns: 14vw;
     margin-right: 1vw;
 }
 
 .etc-btn-container {
     display: grid;
     gap: 1vw;
-    grid-template-columns: 14vw;
+    grid-template-rows: repeat(4, 1fr);
 }
 
 .buttons {
@@ -71,16 +72,12 @@ body {
 }
 
 .number-buttons {
-    background-color: #72F2EB;
-}
-
-.operation-buttons, .equal, .float-point {
-    background-color: #747E7E;
+    background-color: #F2F0D8;
 }
 
 .clear, .backsapce {
-   grid-row: span 2;
-   height: 100%;
+    grid-row: span 2;
+    height: 100%;
 }
 
 .clear {
@@ -99,4 +96,13 @@ body {
 
 img {
     width: 100%;
+}
+
+.disabeled {
+    background-color: #747E7E; 
+}
+
+.footer {
+    font-size: larger;
+    font-weight: 900;
 }

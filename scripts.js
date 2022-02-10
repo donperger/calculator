@@ -36,7 +36,11 @@ const clearButton = document.querySelector('.clear');
 clearButton.addEventListener('click', clear)
 
 const equalButton = document.querySelector('.equal');
-equalButton.addEventListener('click', calculate);
+equalButton.addEventListener('click', () => {
+    if (!backsapaceButton.disabled) backspaceButtonSwitch();
+    if (!floatPointButton.disabled) floatPointButtonSwitch();
+    calculate();
+});
 
 const backsapaceButton = document.querySelector('.backsapce');
 backsapaceButton.addEventListener('click', backspace);
@@ -53,6 +57,8 @@ window.addEventListener('keydown', (e) => {
         let operationKeyObj = operationKeys.filter(key => key.sign === e.key);
         addOperation(operationKeyObj[0].name, operationKeyObj[0].sign);
     } else if (e.key === 'Enter' || e.key === '=') {
+        if (!backsapaceButton.disabled) backspaceButtonSwitch();
+        if (!floatPointButton.disabled) floatPointButtonSwitch();
         calculate();
     } else if (e.key === 'Backspace' && !backsapaceButton.disabled) {
         backspace();
@@ -97,9 +103,6 @@ function operate(operation, a, b) {
 };
 
 function calculate () {
-    if (!backsapaceButton.disabled) backspaceButtonSwitch();
-    if (!floatPointButton.disabled) floatPointButtonSwitch();
-
     let separatedDisplay = display.split(' ');
     if (separatedDisplay.length === 1) {
         displayContainer.textContent = display;
@@ -141,10 +144,20 @@ function backspace() {
 
 function backspaceButtonSwitch() {
     backsapaceButton.disabled = !backsapaceButton.disabled;
+    if (backsapaceButton.disabled) {
+        backsapaceButton.classList.add('disabeled');
+    } else {
+        backsapaceButton.classList.remove('disabeled');
+    }
 };
 
 function floatPointButtonSwitch() {
     floatPointButton.disabled = !floatPointButton.disabled;
+    if (floatPointButton.disabled) {
+        floatPointButton.classList.add('disabeled');
+    } else {
+        floatPointButton.classList.remove('disabeled');
+    }
 }
 
 function floatPoint() {
