@@ -34,6 +34,8 @@ operationButtons.forEach((button) => {
 const clearButton = document.querySelector('.clear');
 clearButton.addEventListener('click', clear)
 
+clearButton.focus();
+
 const equalButton = document.querySelector('.equal');
 equalButton.addEventListener('click', () => {
     if (!backsapaceButton.disabled) backspaceButtonSwitch();
@@ -55,7 +57,14 @@ window.addEventListener('keydown', (e) => {
     } else if ( operationKeys.filter(key => key.sign === e.key).length != 0) {
         let operationKeyObj = operationKeys.filter(key => key.sign === e.key);
         addOperation(operationKeyObj[0].name, operationKeyObj[0].sign);
-    } else if (e.key === 'Enter' || e.key === '=') {
+    } else if (e.key === 'Enter' ) {
+        const selected = document.querySelectorAll(':hover');
+        e.target.blur();
+        if (!backsapaceButton.disabled) backspaceButtonSwitch();
+        if (!floatPointButton.disabled) floatPointButtonSwitch();
+        calculate();
+    }
+     else if (e.key === '=') {
         if (!backsapaceButton.disabled) backspaceButtonSwitch();
         if (!floatPointButton.disabled) floatPointButtonSwitch();
         calculate();
